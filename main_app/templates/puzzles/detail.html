@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Puzzle | Swordle
+{% endblock %}
+
+{% block content %}
+<h1>Puzzle</h1>
+
+<div class="card center-align">
+  <div class="card-content">
+    <span class="card-title">{{ puzzle.id }}</span>
+    <p>Word: {{ puzzle.hidden_word }}</p>
+  </div>
+</div>
+<form action="{% url 'add_guess' puzzle.id %}" method="POST">
+  {% csrf_token %}
+  {{ guess_form.as_p }}
+  <input type="submit" value="Guess" class="btn blue">
+</form>
+<ul>
+  {% for guess in puzzle.guess_set.all %}
+  <li>{{ guess.word }}</li>
+  {% endfor %}
+</ul>
+{% endblock %}

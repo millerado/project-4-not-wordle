@@ -9,12 +9,14 @@ Puzzle Index | Swordle
 <h1>Puzzle Index</h1>
 
 {% for puzzle in puzzles %}
-<div class="card">
-  <div class="card-content">
-    <div class="card-title">{{ puzzle.id }}</div>
-    <p>Date: {{ puzzle.date }}</p>
-    <p>Word: {{ puzzle.hidden_word }}</p>
+<a href="{% url 'puzzles_detail' puzzle.id %}">
+  <div class="card">
+    <div class="card-content">
+      <div class="card-title">{{ puzzle.id }}</div>
+      <p>Date: {{ puzzle.date }}</p>
+      <p>Word: {{ puzzle.hidden_word }}</p>
+    </div>
   </div>
-</div>
+</a>
 {% endfor %}
 {% endblock %}

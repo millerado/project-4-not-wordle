@@ -5,5 +5,7 @@ urlpatterns = [
   path('', views.home, name='home'),
   path('about/', views.about, name='about'),
   path('puzzles/', views.puzzles_index, name='puzzles_index'),
+  path('puzzles/<int:puzzle_id>/', views.puzzles_detail, name='puzzles_detail'),
   path('puzzles/create', views.PuzzlesCreate.as_view(), name='puzzles_create'),
+  path('puzzles/<int:puzzle_id>/add_guess/', views.add_guess, name='add_guess'),
 ]

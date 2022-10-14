@@ -4,4 +4,4 @@ from .models import Guess
 class GuessForm(ModelForm):
   class Meta:
     model = Guess
-    fields = ('word')
+    fields = ('word',)
