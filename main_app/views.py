@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.shortcuts import render, redirect
 from .models import Puzzle
 
 # Create your views here.
@@ -11,3 +12,7 @@ def about(request):
 def puzzles_index(request):
   puzzles = Puzzle.objects.all()
   return render(request, 'puzzles/index.html', { 'puzzles': puzzles })
+
+class PuzzlesCreate(CreateView):
+  model = Puzzle
+  fields = ('hidden_word', 'date')
