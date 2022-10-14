@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Puzzle Index | Swordle
+{% endblock %}
+
+{% block content %}
+
+<h1>Puzzle Index</h1>
+
+{% for puzzle in puzzles %}
+<div class="card">
+  <dib class="card-content">
+    <div class="card-title">{{ puzzle.id }}</div>
+  </dib>
+</div>
+{% endfor %}
+{% endblock %}
