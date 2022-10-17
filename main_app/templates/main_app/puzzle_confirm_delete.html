@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Delete Confirmation | Swordle
+{% endblock %}
+
+{% block content %}
+<h1>Are you sure you want to delete the puzzle?</h1>
+<form method='POST'>
+  {% csrf_token %}
+  <input class='btn red' type="submit" value="Yes - Delete">
+  <a class='btn blue' href="{% url 'puzzles_index' %}">No - Cancel</a>
+</form>
+
+{% endblock %}
