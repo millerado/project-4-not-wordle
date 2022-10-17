@@ -1,4 +1,6 @@
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.shortcuts import render, redirect
@@ -12,15 +14,18 @@ def home(request):
 def about(request):
   return render(request, 'about.html')
 
+@login_required
 def puzzles_index(request):
-  puzzles = Puzzle.objects.all()
+  puzzles = Puzzle.objects.filter(user=request.user)
   return render(request, 'puzzles/index.html', { 'puzzles': puzzles })
 
+@login_required
 def puzzles_detail(request, puzzle_id):
   puzzle = Puzzle.objects.get(id=puzzle_id)
   guess_form = GuessForm()
   return render(request, 'puzzles/detail.html', { 'puzzle': puzzle, 'guess_form': guess_form })
 
+@login_required
 def add_guess(request, puzzle_id):
   form = GuessForm(request.POST)
   if form.is_valid():
@@ -48,7 +53,7 @@ def signup(request):
   return render(request, 'registration/signup.html', context)
 
 
-class PuzzlesCreate(CreateView):
+class PuzzlesCreate(LoginRequiredMixin, CreateView):
   model = Puzzle
   fields = ('hidden_word', 'date')
 
