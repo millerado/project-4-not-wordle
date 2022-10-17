@@ -6,6 +6,8 @@ from django.contrib.auth import login
 from django.shortcuts import render, redirect
 from .models import Guess, Puzzle
 from .forms import GuessForm
+from datetime import datetime
+import requests
 
 # Create your views here.
 def home(request):
@@ -33,6 +35,15 @@ def add_guess(request, puzzle_id):
     new_guess.puzzle_id = puzzle_id
     new_guess.save()
   return redirect('puzzles_detail', puzzle_id=puzzle_id)
+
+@login_required
+def create_auto(request):
+  r = requests.get('https://thatwordleapi.azurewebsites.net/get/')
+  word = r.json().get('Response')
+  date = datetime.fromtimestamp(r.json().get('Timestamp')).strftime('%Y-%m-%d')
+  new_puzzle = Puzzle(hidden_word=word, date=date, user=request.user)
+  new_puzzle.save()
+  return redirect('puzzles_index')
 
 def signup(request):
   error_message = ''

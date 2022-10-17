@@ -8,6 +8,11 @@ Puzzle Index | Swordle
 
 <h1>Puzzle Index</h1>
 
+<form action="{% url 'create_auto' %}" method="POST">
+  {% csrf_token %}
+  <input class="btn" type="submit" value="New Puzzle">
+</form>
+
 {% for puzzle in puzzles %}
 <a href="{% url 'puzzles_detail' puzzle.id %}">
   <div class="card">
