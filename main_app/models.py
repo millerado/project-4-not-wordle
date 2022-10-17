@@ -9,9 +9,15 @@ class Puzzle(models.Model):
   date = models.DateField()
   user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+  def __str__(self):
+    return self.hidden_word
+
   def get_absolute_url(self):
     return reverse('puzzles_index')
 
 class Guess(models.Model):
   word = models.CharField(max_length=6)
   puzzle = models.ForeignKey(Puzzle, on_delete=models.CASCADE)
+
+  def __str__(self):
+    return f'A guess of {self.word}'
