@@ -35,6 +35,12 @@ def puzzles_detail(request, puzzle_id):
   })
 
 @login_required
+def puzzles_update(request, puzzle_id):
+  puzzle = Puzzle.objects.get(id=puzzle_id)
+  puzzle.win_state = True
+  return redirect('puzzles_detail', puzzle_id=puzzle_id)
+
+@login_required
 def add_guess(request, puzzle_id):
   form = GuessForm(request.POST)
   r = requests.get(f"https://thatwordleapi.azurewebsites.net/ask/?word={request.POST.get('word')}")
@@ -88,3 +94,7 @@ class PuzzlesCreate(LoginRequiredMixin, CreateView):
   def form_valid(self, form):
     form.instance.user = self.request.user
     return super().form_valid(form)
+
+class PuzzlesDelete(LoginRequiredMixin, DeleteView):
+  model = Puzzle
+  success_url = '/puzzles/'

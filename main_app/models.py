@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 class Puzzle(models.Model):
   hidden_word = models.CharField(max_length=6)
   date = models.DateField()
+  win_state = models.BooleanField(default=False)
   user = models.ForeignKey(User, on_delete=models.CASCADE)
 
   def __str__(self):
