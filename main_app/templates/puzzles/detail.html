@@ -5,25 +5,17 @@ Puzzle | Swordle
 {% endblock %}
 
 {% block content %}
-<h1>Puzzle ID: {{ puzzle.id }}</h1>
+<h1>Puzzle</h1>
+{% if puzzle.win_state %}
+  <h2 class="red-text">This puzzle is finished!</h2>
+{% endif %}
 <a class="btn red" href="{% url 'puzzles_delete' puzzle.id %}">Delete</a>
-<div class="flex-container">
-  {% for letter in puzzle.hidden_word %}
-  <div class="box">
-     <p>{{ letter.capitalize }}</p>
-  </div>
-  {% endfor %}
-</div>
-
-{% for i in '012345'|make_list %}
-  <div class="flex-container">
-    {% for j in '01234'|make_list %}
-      <div class="box">
-        <p>{{ j }}</p> 
-      </div>  
-    {% endfor %}
-  </div>
+<div class="hidden" id="hidden-word">{{ puzzle.hidden_word }}</div>
+{% for guess in puzzle.guess_set.all %}
+<div class="hidden guesses">{{ guess }}</div>
 {% endfor %}
+
+<div class="board" id="board"></div>
 
 {% if error_message %}
 <p class="red-text">Not a valid word</p>
@@ -34,14 +26,18 @@ Puzzle | Swordle
   <input type="submit" value="Guess" class="btn blue">
 </form>
 
-{% for guess in puzzle.guess_set.all %}
-  <div class="flex-container">
-    {% for letter in guess|make_list %}
-      <div class="box">
-        <p>{{ letter }}</p> 
-      </div>  
-    {% endfor %}
-  </div>
-{% endfor %}
+<script>
+  const board = document.getElementById('board')
+  const hiddenWord = document.getElementById('hidden-word');
+  const guessEls = document.querySelectorAll('.guesses')
+  
+  const guesses = [];
+  for(let i = 0; i < guessEls.length; i++){
+    guesses.push(guessEls[i].innerHTML);
+  }
+
+  console.log(guesses);
+
+</script>
 
 {% endblock %}
