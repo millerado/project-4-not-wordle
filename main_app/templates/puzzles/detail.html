@@ -6,13 +6,24 @@ Puzzle | Swordle
 
 {% block content %}
 <h1>Puzzle</h1>
-
-<div class="card center-align">
-  <div class="card-content">
-    <span class="card-title">{{ puzzle.id }}</span>
-    <p>Word: {{ puzzle.hidden_word }}</p>
+<div class="flex-container">
+  {% for letter in puzzle.hidden_word %}
+  <div class="box">
+     <p>{{ letter.capitalize }}</p>
   </div>
+  {% endfor %}
 </div>
+
+{% for i in '012345'|make_list %}
+  <div class="flex-container">
+    {% for j in '01234'|make_list %}
+      <div class="box">
+        <p>{{ j }}</p> 
+      </div>  
+    {% endfor %}
+  </div>
+{% endfor %}
+
 {% if error_message %}
 <p class="red-text">Not a valid word</p>
 {% endif %}
@@ -21,9 +32,15 @@ Puzzle | Swordle
   {{ guess_form.as_p }}
   <input type="submit" value="Guess" class="btn blue">
 </form>
-<ul>
-  {% for guess in puzzle.guess_set.all %}
-  <li>{{ guess.word }}</li>
-  {% endfor %}
-</ul>
+
+{% for guess in puzzle.guess_set.all %}
+  <div class="flex-container">
+    {% for letter in guess|make_list %}
+      <div class="box">
+        <p>{{ letter }}</p> 
+      </div>  
+    {% endfor %}
+  </div>
+{% endfor %}
+
 {% endblock %}
