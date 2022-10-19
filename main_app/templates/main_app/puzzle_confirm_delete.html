@@ -9,7 +9,7 @@ Delete Confirmation | Swordle
 <form method='POST'>
   {% csrf_token %}
   <input class='btn red' type="submit" value="Yes - Delete">
-  <a class='btn blue' href="{% url 'puzzles_index' %}">No - Cancel</a>
+  <a class='btn blue' href="{% url 'puzzles_detail' puzzle.id %}">No - Cancel</a>
 </form>
 
 {% endblock %}
