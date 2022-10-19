@@ -38,6 +38,7 @@ def puzzles_detail(request, puzzle_id):
 def puzzles_update(request, puzzle_id):
   puzzle = Puzzle.objects.get(id=puzzle_id)
   puzzle.win_state = True
+  puzzle.save()
   return redirect('puzzles_detail', puzzle_id=puzzle_id)
 
 @login_required

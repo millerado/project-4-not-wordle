@@ -33,11 +33,17 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid black;
+  font-size: xxx-large;
   width: 7rem;
   height: 7rem;
+  background-color: white;
+  border: 1px solid black;
 }
 
-.box p {
-  font-size: xxx-large;
+.correct-letter-location {
+  background-color: green;
+}
+
+.correct-letter {
+  background-color: orange;
 }
