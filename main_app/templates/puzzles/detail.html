@@ -6,21 +6,87 @@ Puzzle | Swordle
 
 {% block content %}
 <h1>Puzzle</h1>
+{% if puzzle.win_state %}
+  <h2 class="red-text">This puzzle is finished!</h2>
+{% else %}
+  <form id='winner' class='hidden' action="{% url 'puzzles_update' puzzle.id %}" method="POST">
+    {% csrf_token %}
+  </form>
+{% endif %}
+<a class="btn red" href="{% url 'puzzles_delete' puzzle.id %}">Delete</a>
+<div class="hidden" id="hidden-word">{{ puzzle.hidden_word }}</div>
+<div class="hidden" id="puzzle-id">{{ puzzle.id }}</div>
+{% for guess in puzzle.guess_set.all %}
+<div class="hidden guesses">{{ guess }}</div>
+{% endfor %}
 
-<div class="card center-align">
-  <div class="card-content">
-    <span class="card-title">{{ puzzle.id }}</span>
-    <p>Word: {{ puzzle.hidden_word }}</p>
-  </div>
-</div>
-<form action="{% url 'add_guess' puzzle.id %}" method="POST">
-  {% csrf_token %}
-  {{ guess_form.as_p }}
-  <input type="submit" value="Guess" class="btn blue">
-</form>
-<ul>
-  {% for guess in puzzle.guess_set.all %}
-  <li>{{ guess.word }}</li>
-  {% endfor %}
-</ul>
+<div class="board" id="board"></div>
+
+{% if error_message %}
+<p class="red-text">Not a valid word</p>
+{% endif %}
+{% if puzzle.win_state == False %}
+  <form id="guess-form" action="{% url 'add_guess' puzzle.id %}" method="POST">
+    {% csrf_token %}
+    {{ guess_form.as_p }}
+    <input type="submit" value="Guess" class="btn blue">
+  </form>
+{% endif %}
+
+<script>
+  const main = document.querySelector('main');
+  const board = document.getElementById('board');
+  const guessEls = document.querySelectorAll('.guesses');
+  const winningForm = document.getElementById('winner');
+  const guessForm = document.getElementById('guess-form')
+  const puzzleID = document.getElementById('puzzle-id').innerHTML;
+  const hiddenWord = document.getElementById('hidden-word').innerHTML.toUpperCase();
+  
+  // Take guess elements and put text in a list
+  const guesses = [];
+  for(let i = 0; i < guessEls.length; i++) {
+    guesses.push(guessEls[i].innerHTML);
+  }
+
+  // Create the Board
+  for(let i = 0; i < 6; i++) {
+    const newDiv = document.createElement('div');
+    newDiv.className = `flex-container`;
+    newDiv.id = `${i}`
+    for(let j = 0; j < 5; j++) {
+      const newBox = document.createElement('div');
+      newBox.className = `box`;
+      newBox.id = `${i}${j}`
+      newDiv.appendChild(newBox);
+    }
+    board.appendChild(newDiv);
+  }
+
+  // Fill Board with Guesses/Color Code Letters
+  guesses.forEach((guess, i) => {
+    for(let j = 0; j < guess.length; j++) {
+      const box = document.getElementById(`${i}${j}`);
+      box.innerText = guess[j].toUpperCase();
+      if (hiddenWord[j] === guess[j].toUpperCase()) {
+        box.classList.add('correct-letter-location');
+      } else if (hiddenWord.includes(guess[j].toUpperCase())){
+        box.classList.add('correct-letter');
+      }
+    }
+    // Win State
+    if (hiddenWord === guess.toUpperCase() && winningForm) {
+      winningForm.submit();
+    }
+  })
+// Lose State
+if (guesses.length >= 6){
+  const loseMessage = document.createElement('h2');
+  loseMessage.className = 'red-text';
+  loseMessage.innerHTML = 'Better luck next time!';
+  main.insertBefore(loseMessage, winningForm);
+  guessForm.remove();
+} 
+
+</script>
+
 {% endblock %}
