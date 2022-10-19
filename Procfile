@@ -1,1 +1,1 @@
-web: gunicron swordle.wsgi
+web: gunicorn swordle.wsgi
