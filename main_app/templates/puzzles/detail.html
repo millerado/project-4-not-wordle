@@ -25,16 +25,20 @@ Puzzle | Swordle
 {% if error_message %}
 <p class="red-text">Not a valid word</p>
 {% endif %}
-<form action="{% url 'add_guess' puzzle.id %}" method="POST">
-  {% csrf_token %}
-  {{ guess_form.as_p }}
-  <input type="submit" value="Guess" class="btn blue">
-</form>
+{% if puzzle.win_state == False %}
+  <form id="guess-form" action="{% url 'add_guess' puzzle.id %}" method="POST">
+    {% csrf_token %}
+    {{ guess_form.as_p }}
+    <input type="submit" value="Guess" class="btn blue">
+  </form>
+{% endif %}
 
 <script>
+  const main = document.querySelector('main');
   const board = document.getElementById('board');
   const guessEls = document.querySelectorAll('.guesses');
   const winningForm = document.getElementById('winner');
+  const guessForm = document.getElementById('guess-form')
   const puzzleID = document.getElementById('puzzle-id').innerHTML;
   const hiddenWord = document.getElementById('hidden-word').innerHTML.toUpperCase();
   
@@ -72,11 +76,16 @@ Puzzle | Swordle
     // Win State
     if (hiddenWord === guess.toUpperCase() && winningForm) {
       winningForm.submit();
-      console.log("This is the correct word!");
     }
   })
-
-
+// Lose State
+if (guesses.length >= 6){
+  const loseMessage = document.createElement('h2');
+  loseMessage.className = 'red-text';
+  loseMessage.innerHTML = 'Better luck next time!';
+  main.insertBefore(loseMessage, winningForm);
+  guessForm.remove();
+} 
 
 </script>
 
