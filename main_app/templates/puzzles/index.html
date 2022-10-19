@@ -13,16 +13,17 @@ Puzzle Index | Swordle
   <input class="btn" type="submit" value="New Puzzle">
 </form>
 
-{% for puzzle in puzzles %}
-<a href="{% url 'puzzles_detail' puzzle.id %}">
-  <div class="card">
-    <div class="card-content">
-      <div class="card-title">{{ puzzle.id }}</div>
-      <p>Date: {{ puzzle.date }}</p>
-      <p>Word: {{ puzzle.hidden_word }}</p>
-      <p>Completed: {{ puzzle.win_state }}</p>
+<div class="puzzle-container">
+  {% for puzzle in puzzles %}
+  <a href="{% url 'puzzles_detail' puzzle.id %}">
+    <div class="card">
+      <div class="card-content">
+        <div class="card-title">{{ puzzle.date }}</div>
+        <p>Completed: {{ puzzle.win_state }}</p>
+      </div>
     </div>
-  </div>
-</a>
-{% endfor %}
+  </a>
+  <div class="hidden cover"></div>
+  {% endfor %}
+</div>
 {% endblock %}
