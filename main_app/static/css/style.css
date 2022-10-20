@@ -11,10 +11,12 @@ body {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
+  background-color: rgb(42, 41, 41);
 }
 
 main {
   flex: 1 0 auto;
+  color: white;
 }
 
 footer {
@@ -24,9 +26,9 @@ footer {
 
 .flex-container {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 4rem;
+  margin-bottom: 1rem;
 }
 
 .box {
@@ -37,7 +39,9 @@ footer {
   width: 7rem;
   height: 7rem;
   background-color: white;
+  color: black;
   border: 1px solid black;
+  margin-left: 1rem;
 }
 
 .correct-letter-location {
@@ -52,4 +56,31 @@ footer {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   column-gap: 10px;
+}
+
+.nav-wrapper,
+.page-footer {
+  background-color: darkblue;
+}
+
+#id_word {
+  color: white;
+  font-size: 40px;
+  text-align: center;
+}
+
+#guess-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+  margin: 0 auto;
+}
+
+label {
+  display: none;
+}
+
+form input {
+  color: white;
 }

@@ -41,7 +41,7 @@ def puzzles_update(request, puzzle_id):
 @login_required
 def add_guess(request, puzzle_id):
   form = GuessForm(request.POST)
-  r = requests.get(f"https://thatwordleapi.azurewebsites.net/ask/?word={request.POST.get('word')}")
+  r = requests.get(f"https://thatwordleapi.azurewebsites.net/ask/?word={request.POST.get('word').lower()}")
   if r.json().get('Response'):
     if form.is_valid():
       new_guess = form.save(commit=False)

@@ -13,7 +13,21 @@ Puzzle | Swordle
     {% csrf_token %}
   </form>
 {% endif %}
-<a class="btn red" href="{% url 'puzzles_delete' puzzle.id %}">Delete</a>
+
+{% if error_message %}
+<p class="red-text">Please Submit a Valid 5 Letter Word</p>
+{% endif %}
+
+{% if puzzle.win_state == False %}
+  <form id="guess-form" action="{% url 'add_guess' puzzle.id %}" method="POST">
+    {% csrf_token %}
+    {{ guess_form }}
+    <input type="submit" value="Guess" class="btn blue">
+  </form>
+{% endif %}
+<br>
+<hr>
+<br>
 <div class="hidden" id="hidden-word">{{ puzzle.hidden_word }}</div>
 <div class="hidden" id="puzzle-id">{{ puzzle.id }}</div>
 {% for guess in puzzle.guess_set.all %}
@@ -22,16 +36,7 @@ Puzzle | Swordle
 
 <div class="board" id="board"></div>
 
-{% if error_message %}
-<p class="red-text">Not a valid word</p>
-{% endif %}
-{% if puzzle.win_state == False %}
-  <form id="guess-form" action="{% url 'add_guess' puzzle.id %}" method="POST">
-    {% csrf_token %}
-    {{ guess_form.as_p }}
-    <input type="submit" value="Guess" class="btn blue">
-  </form>
-{% endif %}
+<a class="btn red" href="{% url 'puzzles_delete' puzzle.id %}">Delete</a>
 
 <script>
   const main = document.querySelector('main');
