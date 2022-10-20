@@ -6,6 +6,7 @@ A spelling and word guessing game to test your vocabulary.
 
 - Python
 - Django
+- PostgreSQL
 - HTML
 - CSS
 - Javascript
