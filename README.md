@@ -9,6 +9,7 @@ A spelling and word guessing game to test your vocabulary.
 - PostgreSQL
 - HTML
 - CSS
+- Materialize
 - Javascript
 
 ## Screenshots
